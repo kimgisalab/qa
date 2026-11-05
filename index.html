@@ -10,13 +10,41 @@
 <link rel="manifest" href="manifest.json">
 <meta name="apple-mobile-web-app-title" content="질문하기">
 <meta name="theme-color" content="#FFFFFF">
-<!-- 회사 데이터는 이 페이지에 없음. 열면 바로 김기사랩 질문하기 웹앱으로 이동 -->
 <script>
-  location.replace('https://script.google.com/a/macros/kimgisacompany.com/s/AKfycbwAzeqs0dMf02M68tj3llqdSCwb_Lvw3WVxmuBHmzPoircqn530jUmrxNS5XE6DqMM/exec');
+  // 회사 데이터는 이 페이지에 없음. 김기사랩 질문하기 웹앱으로 보내 주는 시작 페이지.
+  // 홈 화면 아이콘으로 열었을 때(?go=1)만 바로 이동하고,
+  // 브라우저로 처음 열었을 때는 이 페이지에 머물러야 "홈 화면에 추가"에 로고 아이콘이 잡힘.
+  var QA_URL = 'https://script.google.com/a/macros/kimgisacompany.com/s/AKfycbwAzeqs0dMf02M68tj3llqdSCwb_Lvw3WVxmuBHmzPoircqn530jUmrxNS5XE6DqMM/exec';
+  if (/[?&]go=1/.test(location.search)) {
+    location.replace(QA_URL);
+  } else if (history.replaceState) {
+    history.replaceState(null, '', location.pathname + '?go=1');   // 이 상태로 홈 화면에 추가되게
+  }
 </script>
-<style>body{font-family:-apple-system,sans-serif;display:flex;align-items:center;justify-content:center;height:100vh;margin:0;color:#52514e}</style>
+<style>
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', sans-serif; margin: 0; color: #1a1a2e; background: #fff; }
+  .wrap { max-width: 420px; margin: 0 auto; padding: 56px 24px; text-align: center; }
+  .logo { width: 96px; height: 96px; border-radius: 22px; box-shadow: 0 2px 12px rgba(0,0,0,.08); }
+  h1 { font-size: 22px; margin: 20px 0 6px; }
+  .sub { color: #52514e; font-size: 14px; margin: 0 0 28px; }
+  .go { display: block; background: #3366FF; color: #fff; text-decoration: none; font-size: 17px; font-weight: 600; padding: 15px; border-radius: 12px; }
+  .tip { text-align: left; background: #f4f6f9; border-radius: 12px; padding: 16px 18px; margin-top: 28px; font-size: 14px; line-height: 1.7; color: #52514e; }
+  .tip b { color: #1a1a2e; }
+</style>
 </head>
 <body>
-  <a href="https://script.google.com/a/macros/kimgisacompany.com/s/AKfycbwAzeqs0dMf02M68tj3llqdSCwb_Lvw3WVxmuBHmzPoircqn530jUmrxNS5XE6DqMM/exec">질문하기로 이동 중…</a>
+  <div class="wrap">
+    <img class="logo" src="icon-512.png" alt="">
+    <h1>김기사랩 질문하기</h1>
+    <p class="sub">회사 계정(@kimgisacompany.com)으로 로그인해 주세요.</p>
+    <a class="go" id="go" href="#">질문하기 열기</a>
+    <div class="tip">
+      <b>홈 화면에 아이콘으로 추가하기</b><br>
+      이 화면에서 바로 추가해 주세요.<br>
+      · 아이폰: 공유 버튼 → "홈 화면에 추가"<br>
+      · 안드로이드: ⋮ 메뉴 → "홈 화면에 추가"
+    </div>
+  </div>
+  <script>document.getElementById('go').href = QA_URL;</script>
 </body>
 </html>
